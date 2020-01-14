@@ -1,35 +1,42 @@
-from selenium.webdriver import Chrome
-import pandas as pd
-import mysql.connector
-import sys
-import time
-import datetime
+# Python program to print partial Koch Curve. 
+# importing the libraries : turtle standard 
+# graphics library for python 
+from turtle import *
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  passwd="",
-  database="dairy"
-)
+#function to create koch snowflake or koch curve 
+def snowflake(lengthSide, levels): 
+	if levels == 0: 
+		forward(lengthSide) 
+		return
+	lengthSide /= 3.0
+	snowflake(lengthSide, levels-1) 
+	left(60) 
+	snowflake(lengthSide, levels-1) 
+	right(120) 
+	snowflake(lengthSide, levels-1) 
+	left(60) 
+	snowflake(lengthSide, levels-1) 
 
-mycursor = mydb.cursor()
+# main function 
+if __name__ == "__main__": 
 
-webdriver = 'C:/xampp/htdocs/Dairy/API/toph/python/chromedriver3.exe'
+	# defining the speed of the turtle 
+	speed(0)				 
+	length = 300.0			
 
-driver = Chrome(webdriver)
-cnt=0
-url = "https://www.codechef.com/submissions?sort_by=All&sorting_order=asc&language=All&status=All&year=2020&handle=marajul&pcode=&ccode=&Submit=GO"
-driver.get(url)
-aa=driver.find_element_by_tag_name('tbody')
+	# Pull the pen up – no drawing when moving. 
+	penup()					 
+	
+	# Move the turtle backward by distance, 
+	# opposite to the direction the turtle 
+	# is headed. 
+	# Do not change the turtle’s heading. 
+	backward(length/2.0)		 
 
-bb=aa.find_element_by_tag_name('tr')
-print(bb.text)
-# for b in bb:
-# 	print(b.text)
+	# Pull the pen down – drawing when moving. 
+	pendown()		 
 
+	snowflake(length, 4) 
 
-
-print("successfull")
-driver.close()
-sys.exit()
-
+	# To control the closing windows of the turtle 
+	mainloop() 

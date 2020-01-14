@@ -14,7 +14,7 @@ driver = Chrome(webdriver)
 url = "https://mbasic.facebook.com/messages/read/?fbid=100006540432459&entrypoint=profile_message_button&_rdr"
 driver.get(url)
 driver.find_element_by_id('m_login_email').send_keys('m.marajul@gmail.com')
-driver.find_element_by_name('pass').send_keys('MARAJULLOL')
+driver.find_element_by_name('pass').send_keys('')
 driver.find_element_by_name('login').click()
 cnt=0
 while cnt<=50:
@@ -50,4 +50,3 @@ while cnt<=50:
 print("successfull")
 # driver.close()
 # sys.exit()
-
