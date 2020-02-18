@@ -2,51 +2,49 @@ from selenium.webdriver import Chrome
 import pandas as pd
 import mysql.connector
 import sys
+import time
+import datetime
 
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  passwd="",
+  database="dairy"
+)
 
+mycursor = mydb.cursor()
 
 webdriver = 'C:/xampp/htdocs/Dairy/API/toph/python/chromedriver3.exe'
 
 driver = Chrome(webdriver)
-
-
-
-url = "https://mbasic.facebook.com/messages/read/?fbid=100006540432459&entrypoint=profile_message_button&_rdr"
-driver.get(url)
-driver.find_element_by_id('m_login_email').send_keys('m.marajul@gmail.com')
-driver.find_element_by_name('pass').send_keys('')
-driver.find_element_by_name('login').click()
 cnt=0
-while cnt<=50:
-	try:
-		driver.find_element_by_id('composerInput').send_keys('Hi, KU :P')
-		driver.find_element_by_name('send').click()
-		cnt+=1
-	except :
-		drive.close()
-		sys.exit()
+
+while 1:
+	page_nb=(str)(cnt)
+	url = "https://codeforces.com/submissions/.MARAJUL./page/"+page_nb
+	cnt=cnt+1
+	driver.get(url)
+	ab = driver.find_elements_by_tag_name("tbody")
+	# print(ab[0].text)
+	quotes = ab[0].find_elements_by_tag_name("tr")
 	
+	for quote in quotes:
+		row=quote.find_elements_by_tag_name("td")
+		if(row[5].text=='Accepted'):
+			row[0].click()
+			code=driver.find_elements_by_class_name('linenums')
+			ab=(str)(code[0].text)
+			name=row[3].text
+			name=name+".cpp"
+			f= open(name,"w+")
+			f.write(ab)
+			f.close()
+			driver.find_elements_by_class_name('close').click()
+	if(cnt==9):
+		break
 
-# for quote in quotes:
-# 	print(quote.text)
-# 	print("OK")
-
-# if(len(quotes)==0):
-# 	break
-# 	time=time1[0].get_attribute('data-time')
-# 	urlp=""
-# 	if(link):
-# 		urlp=link[0].get_attribute('href')
-# 	sql1="SELECT * FROM submission WHERE id=%s AND oj='toph'"
-# 	val1 = (row[0].text,)
-# 	mycursor.execute(sql1,val1)
-# 	myresult = mycursor.fetchall()
-# 	if(len(myresult)==0):
-# 		sql="INSERT INTO submission (id,dt,link,name,ver,oj) VALUES (%s,%s,%s,%s,%s,'toph')"
-# 		val=(row[0].text,time,urlp,row[2].text,row[7].text)
-# 		mycursor.execute(sql, val)
-# 		mydb.commit()
 
 print("successfull")
-# driver.close()
-# sys.exit()
+driver.close()
+sys.exit()
+

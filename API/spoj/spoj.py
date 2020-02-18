@@ -37,12 +37,12 @@ while 1:
 		lk=row[2].find_elements_by_tag_name("a")
 		link=lk[0].get_attribute('href')
 		print(tie)
-		sql1="SELECT * FROM submission WHERE id=%s AND oj='spoj'"
+		sql1="SELECT * FROM piammarajul WHERE subid=%s AND oj='spoj'"
 		val1 = (sid,)
 		mycursor.execute(sql1,val1)
 		myresult = mycursor.fetchall()
 		if(len(myresult)==0):
-			sql="INSERT INTO submission (id,dt,link,name,ver,oj) VALUES (%s,%s,%s,%s,%s,'spoj')"
+			sql="INSERT INTO piammarajul (subid,dt,link,name,ver,oj) VALUES (%s,%s,%s,%s,%s,'spoj')"
 			val=(sid,tie,link,pname,ver)
 			mycursor.execute(sql, val)
 			mydb.commit()

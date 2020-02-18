@@ -38,11 +38,11 @@
 		$pname=$pk2['name'];
 		$pname2=madestr($pname);
 
-		$sql = "SELECT * FROM submission WHERE id='$id' AND oj='uva'";
+		$sql = "SELECT * FROM piammarajul WHERE subid='$id' AND oj='uva'";
         $result = $conn->query($sql);
         if($result->num_rows==0)
         {
-        	$sql = "INSERT INTO submission (id,dt,link,name,ver,oj)
+        	$sql = "INSERT INTO piammarajul (subid,dt,link,name,ver,oj)
 			VALUES ('$id', '$tim' , '$link' ,'$pname2', '$verdict[$ver]', 'uva')";
 			$conn->query($sql);
         }

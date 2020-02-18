@@ -67,7 +67,7 @@ if (isset($_POST['reg_user'])) {
 
     $sql="INSERT INTO user(un,email,pass,uva,cf, spoj, toph) VALUES ('$username','$email','$password_1', '$uva','$cf','$spoj','$toph')";
     $tablename="p".$username;
-    $sql2="CREATE TABLE dairy. $tablename ( id INT(18) NOT NULL AUTO_INCREMENT , subid VARCHAR(18) NOT NULL , date VARCHAR(18) NOT NULL , link VARCHAR(200) NOT NULL , name VARCHAR(100) NOT NULL , ver VARCHAR(100) NOT NULL , oj VARCHAR(18) NOT NULL , PRIMARY KEY (id))";
+    $sql2="CREATE TABLE dairy. $tablename ( id INT(18) NOT NULL AUTO_INCREMENT , subid VARCHAR(18) NOT NULL , dt VARCHAR(18) NOT NULL , link VARCHAR(200) NOT NULL , name VARCHAR(100) NOT NULL , ver VARCHAR(100) NOT NULL , oj VARCHAR(18) NOT NULL , PRIMARY KEY (id))";
 
     $res=$conn->query($sql);
     $res2=$conn->query($sql2);

@@ -5,6 +5,7 @@ import sys
 import datetime
 import time
 
+ 
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -42,12 +43,12 @@ for quote in quotes:
 		name= row[1].text
 		link=(row[1].find_elements_by_tag_name("a"))[0].get_attribute('href')
 
-		sql1="SELECT * FROM submission WHERE id=%s AND oj='loj'"
+		sql1="SELECT * FROM piammarajul WHERE subid=%s AND oj='loj'"
 		val1 = (sid,)
 		mycursor.execute(sql1,val1)
 		myresult = mycursor.fetchall()
 		if(len(myresult)==0):
-			sql="INSERT INTO submission (id,dt,link,name,ver,oj) VALUES (%s,%s,%s,%s,%s,'loj')"
+			sql="INSERT INTO piammarajul (subid,dt,link,name,ver,oj) VALUES (%s,%s,%s,%s,%s,'loj')"
 			val=(sid,tt,link,name,row[5].text)
 			mycursor.execute(sql, val)
 			mydb.commit()

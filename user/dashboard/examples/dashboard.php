@@ -6,7 +6,7 @@
         exit();
     }
     include 'C:\xampp\htdocs\Dairy\include\connection.php';
-    $query = "SELECT * FROM submission WHERE ver='Accepted'";
+    $query = "SELECT * FROM submission WHERE ver='Accepted' ";
   	$results = $conn->query($query);
 
 
