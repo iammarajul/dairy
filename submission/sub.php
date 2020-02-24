@@ -36,7 +36,7 @@
 		include 'C:\xampp\htdocs\Dairy\include\connection.php';
 
 
-      $sql = "SELECT * FROM submission  ORDER BY dt DESC";
+      $sql = "SELECT * FROM piammarajul  ORDER BY dt DESC";
 
       $result = $conn->query($sql);
 
@@ -45,10 +45,15 @@
     	 echo "<tr>";
 
         echo "<th>".$row['oj']."</th>";
-        echo "<th>".$row['id']."</th>";
+        echo "<th>".$row['subid']."</th>";
         echo "<th>".gmdate("Y-m-d H:i:s",(string)$row["dt"]). "</th>";
+        if($row["link"]){
+          echo "<th>"."<a href='".$row["link"]."'> ".$row["name"]." </a></th>"; 
+        }
+        else{
+            echo "<th>".$row['name']."</a></th>"; 
+        }
         
-        echo "<th>"."<a href='".$row["link"]."'> ".$row["name"]." </a></th>"; 
         echo "<th>".$row["ver"]."</th>"; 
 
 

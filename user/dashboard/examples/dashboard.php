@@ -2,20 +2,100 @@
 <?php 
     
     if(!isset($_COOKIE['un'])) {
+
         header('location: /dairy/user/login/login.php');
         exit();
     }
     include 'C:\xampp\htdocs\Dairy\include\connection.php';
-    $query = "SELECT * FROM submission WHERE ver='Accepted' ";
+    $table="p".$_COOKIE['un'];
+
+    $res1=array();
+    $query = "SELECT * FROM $table WHERE oj='cf' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='spoj' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='uva' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='loj' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='toph' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+
+    $res2=array();
+    $query = "SELECT * FROM $table WHERE ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res2, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE ver='Wrong Answer'";
+    $results = $conn->query($query);
+    array_push($res2, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE ver='Time Limit Exceeded'";
+    $results = $conn->query($query);
+    array_push($res2, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE ver='Compilation Error'";
+    $results = $conn->query($query);
+    array_push($res2, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE ver='Runtime Error'";
   	$results = $conn->query($query);
+    array_push($res2, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE ver='Memory Limit Exceeded'";
+    $results = $conn->query($query);
+    array_push($res2, $results->num_rows);
+
+    $res3=array();
+    $query = "SELECT * FROM $table WHERE oj='cf'";
+    $results = $conn->query($query);
+    array_push($res3, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='spoj'";
+    $results = $conn->query($query);
+    array_push($res3, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='uva'";
+    $results = $conn->query($query);
+    array_push($res3, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='loj'";
+    $results = $conn->query($query);
+    array_push($res3, $results->num_rows);
+    $query = "SELECT * FROM $table WHERE oj='toph'";
+    $results = $conn->query($query);
+    array_push($res3, $results->num_rows);
+
+    for ($i=0; $i <=4; $i++) { 
+        # code...
+        // echo $res3[$i]." ";
+        $res3[$i]=((double)$res1[$i]/(double)$res3[$i])*100;
+    }
+
+    
+    $tme=time();
+    // echo $tme;
+    $res4=array();
+    for($i=0;$i<12;$i++){
+        $tk=$tme-(30*24*60*60);
+        // echo $tk." ";
+        $sql="SELECT * from $table where dt>=$tk and dt<=$tme and ver='Accepted'";
+        $results = $conn->query($sql);
+        array_push($res4, $results->num_rows);
+        // echo $results->num_rows;
+        $tme=$tk;
+
+    }
 
 
     
  ?>
 
+
+
 <html lang="en">
 
 <head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8" />
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.ico">
@@ -31,6 +111,7 @@
     <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../assets/css/demo.css" rel="stylesheet" />
+    
 </head>
 
 <body>
@@ -57,15 +138,15 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="./table.html">
+                        <a class="nav-link" href="./table.php">
                             <i class="nc-icon nc-notes"></i>
                             <p>All submission</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="./typography.html">
-                            <i class="nc-icon nc-paper-2"></i>
-                            <p>Typography</p>
+                        <a class="nav-link" href="./lastUnsolved.php">
+                            <i class="nc-icon nc-simple-remove"></i>
+                            <p>Last Unsolved</p>
                         </a>
                     </li>
                     <li>
@@ -157,14 +238,14 @@
                                                 "Runtime error"],
                                             datasets: [{
                                             label: '# of Tomatoes',
-                                            data: [12, 19, 3, 5,2,1],
+                                            data: [<?php echo $res2[0]; ?>, <?php echo $res2[1]; ?>, <?php echo $res2[2]; ?>, <?php echo $res2[3]; ?>,<?php echo $res2[5]; ?>,<?php echo $res2[4]; ?>],
                                             backgroundColor: [
-                                                'red',
                                                 'rgb(128,255,149)',
+                                                'red',
                                                 'yellow',
                                                 '#6666FF',
-                                                '#FFCCFF',
-                                                '#808080'
+                                                '#808080',
+                                                '#FFCCFF'
                                             ],
                                             borderColor: [                                       
                                             ],
@@ -216,15 +297,15 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>481</td>
-                                                <td>19</td>
-                                                <td>136</td>
-                                                <td>50</td>
-                                                <td>112</td>
+                                                <td><?php echo $res1[0] ?></td>
+                                                <td><?php echo $res1[1] ?></td>
+                                                <td><?php echo $res1[2] ?></td>
+                                                <td><?php echo $res1[3] ?></td>
+                                                <td><?php echo $res1[4] ?></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4">Total</td>
-                                                <td>1220</td>
+                                                <td><?php echo $res1[0]+$res1[1]+$res1[2]+$res1[3]+$res1[4] ?></td>
                                                 
                                             </tr>
                                         </tbody>
@@ -265,11 +346,12 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>48%</td>
-                                                <td>19%</td>
-                                                <td>48%</td>
-                                                <td>50%</td>
-                                                <td>90%</td>
+                                                <td><?php echo (int)$res3[0]."%"; ?></td>
+                                                <td><?php echo (int)$res3[1]."%"; ?></td>
+                                                <td><?php echo (int)$res3[2]."%"; ?></td>
+                                                <td><?php echo (int)$res3[3]."%"; ?></td>
+                                                <td><?php echo (int)$res3[4]."%"; ?></td>
+                                                
                                             </tr>
                                         </tbody>
                                     </table>
@@ -357,10 +439,9 @@
 <script src="../assets/js/plugins/chartist.min.js"></script>
 <!--  Notifications Plugin    -->
 <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-<!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
+
 <script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-<!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src="../assets/js/demo.js"></script>
 <script>
             // line chart data
@@ -372,17 +453,21 @@
                     strokeColor : "#ACC26D",
                     pointColor : "#fff",
                     pointStrokeColor : "#9DB86D",
-                    data : [203,156,99,251,305,247,50,500,100,210,20,120]
+                    data : [<?php  foreach ($res4 as $key) {
+                        echo $key.",";
+                    }?>]
                 }
-            ]
+
+
+                ]  
+
+
             }
-            // get line chart canvas
             var buyers = document.getElementById('buyers').getContext('2d');
-            // draw line chart
             new Chart(buyers).Line(buyerData);
-            // pie chart data
+           
             
-        </script>
+</script>
 
 
 </html>
