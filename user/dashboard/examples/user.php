@@ -74,9 +74,9 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="./maps.html">
-                            <i class="nc-icon nc-pin-3"></i>
-                            <p>Maps</p>
+                        <a class="nav-link" href="./contest.php">
+                            <i class="nc-icon nc-time-alarm"></i>
+                            <p>Upcoming Contest</p>
                         </a>
                     </li>
                     <li>
@@ -139,7 +139,7 @@
                                     <h4 class="card-title">Edit Profile</h4>
                                 </div>
                                 <div class="card-body">
-                                    <form>
+                                    <form method="post" action="user.php">
                                         <div class="row">
                                             <div class="col-md-6 pr-1">
                                                 <div class="form-group">
