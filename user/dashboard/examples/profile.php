@@ -1,34 +1,51 @@
+
 <?php 
-if(!isset($_COOKIE['un'])) {
+    
+    if(!isset($_COOKIE['un'])) {
+
         header('location: /dairy/user/login/login.php');
         exit();
     }
     include 'C:\xampp\htdocs\Dairy\include\connection.php';
     $table="p".$_COOKIE['un'];
-    $sql = "SELECT * FROM $table WHERE name NOT IN (SELECT name from $table WHERE ver='Accepted') ORDER by dt DESC limit 50";
-    $result = $conn->query($sql);
+    if(isset($_GET['us'])){
+        $na=$_GET['us'];
+        // echo $na;
+        $sql="SELECT * FROM user WHERE un LIKE '%$na%'";
+        $res=$conn->query($sql);
+    }
 
 
 
-?>
-<!DOCTYPE html>
+    
+ ?>
+
+
+
 <html lang="en">
 
 <head>
+    
+    <meta http-equiv="pragma" content="no-cache" />
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8" />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Last Unsolved</title>
+    <title>Find</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
     <!-- CSS Files -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
-    <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="../assets/css/demo.css" rel="stylesheet" />
+    
 </head>
 
 <body>
@@ -42,7 +59,7 @@ if(!isset($_COOKIE['un'])) {
                     </a>
                 </div>
                 <ul class="nav">
-                    <li class="nav-item">
+                    <li >
                         <a class="nav-link" href="dashboard.php">
                             <i class="nc-icon nc-chart-pie-35"></i>
                             <p>Dashboard</p>
@@ -60,10 +77,10 @@ if(!isset($_COOKIE['un'])) {
                             <p>All submission</p>
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./lastunsolved.php">
+                    <li >
+                        <a class="nav-link" href="./lastUnsolved.php">
                             <i class="nc-icon nc-simple-remove"></i>
-                            <p>Last unsolved</p>
+                            <p>Last Unsolved</p>
                         </a>
                     </li>
                     <li>
@@ -72,7 +89,7 @@ if(!isset($_COOKIE['un'])) {
                             <p>Icons</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="./find.php">
                             <i class="nc-icon nc-zoom-split"></i>
                             <p>Find Someone</p>
@@ -86,8 +103,8 @@ if(!isset($_COOKIE['un'])) {
                     </li>
                     <li>
                         <a class="nav-link" href="./cmp.php">
-                            <i class="nc-icon nc-spaceship"></i>
-                            <p>Compare Two profile</p>
+                            <i class="nc-icon nc-bell-55"></i>
+                            <p>Compare two Profile</p>
                         </a>
                     </li>
                 </ul>
@@ -97,7 +114,7 @@ if(!isset($_COOKIE['un'])) {
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg " color-on-scroll="500">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#pablo"> Last Unsolved </a>
+                    <a class="navbar-brand" href="#pablo"> Profile </a>
                     <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-bar burger-lines"></span>
                         <span class="navbar-toggler-bar burger-lines"></span>
@@ -140,49 +157,31 @@ if(!isset($_COOKIE['un'])) {
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="card strpied-tabled-with-hover">
-                                <div class="card-header ">
-                                    <h4 align="Center" class="card-title">Last Unsolved</h4>
-                                    <p align="Center" class="card-category">solve this problem you tried</p>
-                                </div>
-                                <div class="card-body table-full-width table-responsive">
-                                    <table class="table table-hover table-striped">
-                                        <thead>
-                                            <th> judge</th>
-                                            <th >id</th>
-                                            <th >Date</th>
-                                            <th>Problem</th>
-                                            <th>Try again</th>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            while($row = $result->fetch_assoc()) {
-                                            echo "<tr>";
-                                            $oj=$row['oj'];
-                                            if($oj=='cf') $oj='Codeforces';
-                                            echo "<th>".$oj."</th>";
-                                            echo "<th>".$row['subid']."</th>";
-                                            echo "<th>".gmdate("Y-m-d H:i:s",(string)$row["dt"]). "</th>";
-                                            if($row["link"]){
-                                            echo "<th>"."<a href='".$row["link"]."'> ".$row["name"]." </a></th>"; 
-                                            }
-                                            else{
-                                                echo "<th>".$row['name']."</a></th>"; 
-                                            }
-        
-                                            echo "<th>"."Solve It"."</th>"; 
+                    	<!-- <div class="card"> -->
+                        	<div class="col-md-5">
+                           	<div class="btn-group" role="group" aria-label="Basic example">
+  								<a style="background: gray;color: white;" href="?pjp=io" type="button" class="btn btn-primary">Profile</a>
+  								<a type="button" href="#" class="btn btn-primary">Submission</a>
+  								<a type="button" href="#" class="btn btn-primary">Unsolved</a>
+  								<a type="button" href="#" class="btn btn-primary">Friends</a>
+							</div>
+							
+                        	</div>
+                    	<!-- </div> -->
+                    </div>
 
-
-                                            echo "</tr>"; 
-                                            }   
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                           <div class="card">
+                           	<div clas="card-body">
+                           		<h3>
+                           			iammarajul
+                           		</h3>
+                           	</div>
+                           </div>
                         </div>
                     </div>
+                     
                 </div>
             </div>
             <footer class="footer">
@@ -215,21 +214,56 @@ if(!isset($_COOKIE['un'])) {
                             <script>
                                 document.write(new Date().getFullYear())
                             </script>
-                            <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+                            <a href="http://www.facebook.com/iammarajul">Marajul islam</a>, CSE, BSMESRTU
                         </p>
                     </nav>
                 </div>
             </footer>
         </div>
     </div>
-
+    
 </body>
-
+<!--   Core JS Files   -->
 <script src="../assets/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
 <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
 <script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
-
 <script src="../assets/js/plugins/bootstrap-switch.js"></script>
+<script src="../assets/js/plugins/chartist.min.js"></script>
+<script src="../assets/js/plugins/bootstrap-notify.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+<script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 <script src="../assets/js/demo.js"></script>
+<script>
+            // line chart data
+            var buyerData = {
+                labels : ["January","February","March","April","May","June","july","august","september","octomber","nobember","December"],
+                datasets : [
+                {
+                    fillColor : "rgb(170,153,255,0.4)",
+                    strokeColor : "#ACC26D",
+                    pointColor : "#fff",
+                    pointStrokeColor : "#9DB86D",
+                    data : [<?php  foreach ($res4 as $key) {
+                        echo $key.",";
+                    }?>]
+                }
+
+
+                ]  
+
+
+            }
+            var buyers = document.getElementById('buyers').getContext('2d');
+            new Chart(buyers).Line(buyerData);
+           
+            
+</script>
+
+
+
+
+
 
 </html>

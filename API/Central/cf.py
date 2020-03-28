@@ -20,6 +20,7 @@ def codeforces(name,handel):
 	verdict['MEMORY_LIMIT_EXCEEDED']='Memory Limit Exceeded'
 	verdict['CHALLENGED']='Hacked'
 	verdict['SKIPPED']='Skipped'
+	verdict['PARTIAL']='Partial'
 	
 	
 	mycursor = mydb.cursor()
@@ -49,5 +50,5 @@ def codeforces(name,handel):
 			mydb.commit()
 		else:
 			break
-	print("Successful")
+	print(handel)
 	return

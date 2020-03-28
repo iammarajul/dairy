@@ -1,25 +1,110 @@
+<?php
+    if(!isset($_COOKIE['un'])) {
 
+        header('location: /dairy/user/login/login.php');
+        exit();
+    }
+    include 'C:\xampp\htdocs\Dairy\include\connection.php';
+    $r1=0;
+    $r2=0;
+    $pk=0;
+    if(isset($_GET['us1']) && isset($_GET['us2'])){
+        $pk=1;
+        $user1=$_GET['us1'];
+        $user2=$_GET['us2'];
+        $query = "SELECT un FROM user WHERE un='$user1';";
+        $r= $conn->query($query);
+        $r1=$r->num_rows;
+        $query = "SELECT un FROM user WHERE un='$user2';";
+        $r2=  ($conn->query($query))->num_rows;
+    }
+    if($r1 && $r2){
+        $rate1=array();
+        $table="p".$user1;
+        // echo $table;
+        $sum1=0;
+        $query = "SELECT id FROM $table WHERE ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($rate1, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Wrong Answer'";
+        $results = $conn->query($query);
+        array_push($rate1, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Time Limit Exceeded'";
+        $results = $conn->query($query);
+        array_push($rate1, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Compilation Error'";
+        $results = $conn->query($query);
+        array_push($rate1, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Runtime Error'";
+        $results = $conn->query($query);
+        array_push($rate1, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Memory Limit Exceeded'";
+        $results = $conn->query($query);
+        array_push($rate1, $results->num_rows);
+        for ($i=0; $i <6 ; $i++) { 
+            $sum1+=$rate1[$i];
+        }
+
+        for ($i=0; $i <6 ; $i++) { 
+            # code...
+            $rate1[$i]=(($rate1[$i]*100)/$sum1);
+        }
+
+        $rate2=array();
+        $table="p".$user2;
+        // echo $table;
+        $query = "SELECT id FROM $table WHERE ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($rate2, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Wrong Answer'";
+        $results = $conn->query($query);
+        array_push($rate2, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Time Limit Exceeded'";
+        $results = $conn->query($query);
+        array_push($rate2, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Compilation Error'";
+        $results = $conn->query($query);
+        array_push($rate2, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Runtime Error'";
+        $results = $conn->query($query);
+        array_push($rate2, $results->num_rows);
+        $query = "SELECT id FROM $table WHERE ver='Memory Limit Exceeded'";
+        $results = $conn->query($query);
+        array_push($rate2, $results->num_rows);
+        $sum2=0;
+        for ($i=0; $i <6 ; $i++) { 
+            $sum2+=$rate2[$i];
+        }
+
+        for ($i=0; $i <6 ; $i++) { 
+            # code...
+            $rate2[$i]=(int)(($rate2[$i]*100)/$sum2);
+        }
+    }
+    
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <meta http-equiv="pragma" content="no-cache" />
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8" />
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Compare</title>
+    <title>Compare two profile</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-
+    <!-- CSS Files -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
     <link href="../assets/css/demo.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -40,21 +125,21 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="./user.html">
+                        <a class="nav-link" href="./user.php">
                             <i class="nc-icon nc-circle-09"></i>
                             <p>User Profile</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="./table.html">
+                        <a class="nav-link" href="./table.php">
                             <i class="nc-icon nc-notes"></i>
-                            <p>Table List</p>
+                            <p>All submission</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="./typography.html">
-                            <i class="nc-icon nc-paper-2"></i>
-                            <p>Typography</p>
+                        <a class="nav-link" href="./lastUnsolved.php">
+                            <i class="nc-icon nc-simple-remove"></i>
+                            <p>Last Unsolved</p>
                         </a>
                     </li>
                     <li>
@@ -64,14 +149,20 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="./maps.html">
-                            <i class="nc-icon nc-pin-3"></i>
-                            <p>Maps</p>
+                        <a class="nav-link" href="./find.php">
+                            <i class="nc-icon nc-zoom-split"></i>
+                            <p>Find Someone</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="./contest.php">
+                            <i class="nc-icon nc-time-alarm"></i>
+                            <p>Upcoming Contest</p>
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="./notifications.html">
-                            <i class="nc-icon nc-bell-55"></i>
+                        <a class="nav-link" href="./cmp.php">
+                            <i class="nc-icon nc-spaceship"></i>
                             <p>Compare two profile</p>
                         </a>
                     </li>
@@ -139,7 +230,7 @@
                             <div class="col-md-2">
                                 <!-- <div class="card "> -->
                                     <div class="card-body ">
-                                         <button type="submit" name="sbt" class="btn btn-info btn-fill pull-center">Submit</button>
+                                         <button type="submit"class="btn btn-info btn-fill pull-center">Submit</button>
                                     </div>
                                <!--  </div> -->
                             </div>
@@ -155,12 +246,30 @@
                             </div>  
                         </div>
                     </form>
-                    <div class="row">
-                        <div class="col-md-5">
+                    <div class="row" <?php if ($r1>0 && $r2>0 || $pk==0){ echo 'style="display:none;"'; } ?>>
+                        <div class="col-md-4">
+                               
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card ">
+                                <div class="card-body" style="color:red" align="center">
+                                  Username are Invalid..
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                               
+                        </div>  
+                     </div>
+
+
+
+                    <div class="row" <?php if ($r1==0 or $r2==0){ echo 'style="display:none;"'; } ?>>
+                        <div class="col-md-5" >
                              <div class="card ">
                                 <div class="card-header ">
                                     <h4 class="card-title">Program Verdict Rate</h4>
-                                    <p class="card-category">User 1 </p>
+                                    <p class="card-category"><?php echo $user1?> </p>
                                 </div>
                                 <div class="card-body ">
                                     <canvas id="myChart"  width="370" height="400" ></canvas>
@@ -177,7 +286,7 @@
                                                 "Runtime error"],
                                             datasets: [{
                                             label: '# of Tomatoes',
-                                            data: [10,20,3,4,6],
+                                            data: [<?php echo $rate1[0]; ?>, <?php echo $rate1[1]; ?>, <?php echo $rate1[2]; ?>, <?php echo $rate1[3]; ?>,<?php echo $rate1[5]; ?>,<?php echo $rate1[4]; ?>],
                                             backgroundColor: [
                                                 'rgb(128,255,149)',
                                                 'red',
@@ -193,27 +302,26 @@
                                         },
                                         options: {
                                             cutoutPercentage: 40,
-                                            responsive: false,
-
+                                            responsive: true,
                                         }
                                         });
                                         </script>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-md-2">
+                        <div class="col-md-2">
                             
-                        </div> -->
+                        </div>
                         <div class="col-md-5 offset-md-2">
                              <div class="card ">
-                                <div class="card-header ">
+                                <div class="card-header">
                                     <h4 class="card-title">Program Verdict Rate</h4>
-                                    <p class="card-category">User 2 </p>
+                                    <p class="card-category"><?php echo $user2?>  </p>
                                 </div>
-                                <div class="card-body ">
-                                    <canvas id="myChart"  width="370" height="400" ></canvas>
+                                <div class="card-body">
+                                    <canvas id="myChart2"  width="370" height="400" ></canvas>
                                     <script>
-                                        var ctx = document.getElementById("myChart");
+                                        var ctx = document.getElementById("myChart2");
                                         var myChart = new Chart(ctx, {
                                         type: 'pie',
                                         data: {
@@ -225,7 +333,7 @@
                                                 "Runtime error"],
                                             datasets: [{
                                             label: '# of Tomatoes',
-                                            data: [20,13,2,1,6],
+                                            data: [<?php echo $rate2[0]; ?>, <?php echo $rate2[1]; ?>, <?php echo $rate2[2]; ?>, <?php echo $rate2[3]; ?>,<?php echo $rate2[5]; ?>,<?php echo $rate2[4]; ?>],
                                             backgroundColor: [
                                                 'rgb(128,255,149)',
                                                 'red',
@@ -241,7 +349,7 @@
                                         },
                                         options: {
                                             cutoutPercentage: 40,
-                                            responsive: false,
+                                            responsive: true,
 
                                         }
                                         });
@@ -250,12 +358,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" <?php if ($r1==0 or $r2==0){ echo 'style="display:none;"'; } ?>>
                         <div class="col-md-5">
                              <div class="card ">
                                 <div class="card-header ">
                                     <h4 class="card-title">Program Count</h4>
-                                    <p class="card-category">User 1 </p>
+                                    <p class="card-category"><?php echo $user1?>  </p>
                                 </div>
                                 <div class="card-body ">
                                     <table class="table table-sm">
@@ -302,12 +410,14 @@
                                 </div>
                             </div>
                         </div>
-                       
+                       <div class="col-md-2">
+                               
+                        </div>
                         <div class="col-md-5 offset-md-2">
                             <div class="card ">
                                 <div class="card-header ">
                                     <h4 class="card-title">Program Count</h4>
-                                    <p class="card-category">User 2 </p>
+                                    <p class="card-category"><?php echo $user2?>  </p>
                                 </div>
                                 <div class="card-body ">
                                     <table class="table table-sm">
@@ -357,16 +467,47 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" <?php if ($r1==0 or $r2==0){ echo 'style="display:none;"'; } ?>>
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header ">
                                     <h4 class="card-title">Month wise Submission</h4>
+                                    <div class="card-body">
+                                    <canvas id="buyers" width="1000" height="400"></canvas>
+                                    </div>
+                                    <script>
+
+                                        var ctx = document.getElementById("buyers");
+                                        var myChart = new Chart(ctx, {
+                                        type: 'line',
+                                        data: {
+                                            labels: ["January","February","March","April","May","June","july","august","september","octomber","nobember","December"],
+                                            datasets: [
+                                            {
+                                            label: '<?php echo $user1 ?>',
+                                            backgroundColor: [
+                                                'rgb(255,0,0,0.4)'
+                                            ],
+                                            data: [10,18,25,8,7,15,6,26,13,12,11,20]
+                                            },{
+                                                label: '<?php echo $user2 ?>',
+                                            backgroundColor: [
+                                                'rgb(0,255,0,0.4)'
+                                            ],
+                                            data: [7,20,10,10,13,9,15,7,6,10,10,12]
+                                            }
+                                            ]
+                                        },
+                                        options: {
+                                            cutoutPercentage: 40,
+                                            responsive: true
+
+                                        }
+                                        });
+                                    </script>  
                                 </div>
                                 
-                                <div class="card-body">
-                                    <canvas id="buyers" width="1000" height="400"></canvas>
-                                </div>
+                               
 
                                 <div class="card-footer ">
                                     <hr>
@@ -430,8 +571,6 @@
 
 <script src="../assets/js/plugins/bootstrap-switch.js"></script>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-
 <script src="../assets/js/plugins/chartist.min.js"></script>
 
 <script src="../assets/js/plugins/bootstrap-notify.js"></script>
@@ -439,33 +578,7 @@
 <script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
 <script src="../assets/js/demo.js"></script>
 
-<script>
-  // line chart data
-            var buyerData = {
-                labels : ["January","February","March","April","May","June","july","august","september","octomber","nobember","December"],
-                datasets : [
-                {
-                    fillColor : "rgb(170,153,255,0.4)",
-                    strokeColor : "#ACC26D",
-                    pointColor : "#fff",
-                    label: "user1",
-                    pointStrokeColor : "#9DB86D",
-                    data : [10,18,25,8,7,15,6,26,13,12,11,20]
-                },
-                {
-                    fillColor : "rgb(100,153,255,0.4)",
-                    strokeColor : "#ACC26D",
-                    pointColor : "#fff",
-                    pointStrokeColor : "#9DB86D",
-                    data : [7,20,10,10,13,9,15,7,6,10,10,12]
-                }
 
-            ] 
-
-            }
-            var buyers = document.getElementById('buyers').getContext('2d');
-            new Chart(buyers).Line(buyerData);        
-</script>
 
 
 

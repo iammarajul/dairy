@@ -10,21 +10,39 @@
     $table="p".$_COOKIE['un'];
 
     $res1=array();
+    $query = "SELECT DISTINCT name FROM $table WHERE oj='cf' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT DISTINCT name FROM $table WHERE oj='spoj' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT DISTINCT name FROM $table WHERE oj='uva' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT DISTINCT name FROM $table WHERE oj='loj' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+    $query = "SELECT DISTINCT name FROM $table WHERE oj='toph' and ver='Accepted'";
+    $results = $conn->query($query);
+    array_push($res1, $results->num_rows);
+
+
+    $res5=array();
     $query = "SELECT * FROM $table WHERE oj='cf' and ver='Accepted'";
     $results = $conn->query($query);
-    array_push($res1, $results->num_rows);
+    array_push($res5, $results->num_rows);
     $query = "SELECT * FROM $table WHERE oj='spoj' and ver='Accepted'";
     $results = $conn->query($query);
-    array_push($res1, $results->num_rows);
+    array_push($res5, $results->num_rows);
     $query = "SELECT * FROM $table WHERE oj='uva' and ver='Accepted'";
     $results = $conn->query($query);
-    array_push($res1, $results->num_rows);
+    array_push($res5, $results->num_rows);
     $query = "SELECT * FROM $table WHERE oj='loj' and ver='Accepted'";
     $results = $conn->query($query);
-    array_push($res1, $results->num_rows);
+    array_push($res5, $results->num_rows);
     $query = "SELECT * FROM $table WHERE oj='toph' and ver='Accepted'";
     $results = $conn->query($query);
-    array_push($res1, $results->num_rows);
+    array_push($res5, $results->num_rows);
 
     $res2=array();
     $query = "SELECT * FROM $table WHERE ver='Accepted'";
@@ -66,7 +84,10 @@
     for ($i=0; $i <=4; $i++) { 
         # code...
         // echo $res3[$i]." ";
-        $res3[$i]=((double)$res1[$i]/(double)$res3[$i])*100;
+        if($res3[$i]){
+            $res3[$i]=((double)$res5[$i]/(double)$res3[$i])*100;
+        }
+        
     }
 
     
@@ -126,7 +147,7 @@
                 </div>
                 <ul class="nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="dashboard.html">
+                        <a class="nav-link" href="dashboard.php">
                             <i class="nc-icon nc-chart-pie-35"></i>
                             <p>Dashboard</p>
                         </a>
@@ -155,6 +176,13 @@
                             <p>Icons</p>
                         </a>
                     </li>
+                    <li>
+                        <a class="nav-link" href="./find.php">
+                            <i class="nc-icon nc-zoom-split"></i>
+                            <p>Find Someone</p>
+                        </a>
+                    </li>
+                    
                     <li>
                         <a class="nav-link" href="./contest.php">
                             <i class="nc-icon nc-time-alarm"></i>
