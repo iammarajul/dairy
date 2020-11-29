@@ -189,6 +189,7 @@
                                         </thead>
                                         <tbody>
                                             <?php
+                                                // if(isset($GET['us'])){
                                                 while($row = $res->fetch_assoc()) {
                                                     echo "<tr>";
                                                     echo "<th>".$row['un']."</th>";
@@ -199,6 +200,7 @@
                                                     echo "</tr>";
 
                                                 }
+                                            // }
                                             ?>
                                         </tbody>
 

@@ -77,9 +77,78 @@
         }
 
         for ($i=0; $i <6 ; $i++) { 
-            # code...
-            $rate2[$i]=(int)(($rate2[$i]*100)/$sum2);
+            if($sum2!=0){
+            $rate2[$i]=(int)(($rate2[$i]*100)/$sum2);}
+            else{
+                $rate2[$i] = 0;
+            }
         }
+
+        $table1 = "p".$user1;
+        $table2 = "p".$user2;
+        $res3 = array();
+        $res4 = array();
+        $query = "SELECT DISTINCT name FROM $table1 WHERE oj='cf' and ver='Accepted' ";
+        $results = $conn->query($query);
+        array_push($res3, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table1 WHERE oj='spoj' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res3, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table1 WHERE oj='uva' and ver='Accepted' ";
+        $results = $conn->query($query);
+        array_push($res3, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table1 WHERE oj='loj' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res3, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table1 WHERE oj='toph' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res3, $results->num_rows);
+
+        $query = "SELECT DISTINCT name FROM $table2 WHERE oj='cf' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res4, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table2 WHERE oj='spoj' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res4, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table2 WHERE oj='uva' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res4, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table2 WHERE oj='loj' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res4, $results->num_rows);
+        $query = "SELECT DISTINCT name FROM $table2 WHERE oj='toph' and ver='Accepted'";
+        $results = $conn->query($query);
+        array_push($res4, $results->num_rows);
+
+        $tme=time();
+        // echo $tme;
+        $res5=array();
+        $res6 = array();
+        for($i=0;$i<12;$i++){
+            $tk=$tme-(30*24*60*60);
+            // echo $tk." ";
+            $sql="SELECT * from $table1 where dt>=$tk and dt<=$tme and ver='Accepted'";
+            $results = $conn->query($sql);
+            array_push($res5, $results->num_rows);
+            // echo $results->num_rows;
+            $tme=$tk;
+
+        } 
+
+        $tme=time();
+        for($i=0;$i<12;$i++){
+            $tk=$tme-(30*24*60*60);
+            // echo $tk." ";
+            $sql="SELECT * from $table2 where dt>=$tk and dt<=$tme and ver='Accepted'";
+            $results = $conn->query($sql);
+            array_push($res6, $results->num_rows);
+            // echo $results->num_rows;
+            $tme=$tk;
+
+        }
+
+
+
     }
     
 
@@ -388,15 +457,15 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>10</td>
-                                                <td>20</td>
-                                                <td>30</td>
-                                                <td>40</td>
-                                                <td>50</td>
+                                                <td><?php echo $res3[0]?></td>
+                                                <td><?php echo $res3[1]?></td>
+                                                <td><?php echo $res3[2]?></td>
+                                                <td><?php echo $res3[3]?></td>
+                                                <td><?php echo $res3[4]?></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4">Total</td>
-                                                <td>200</td>
+                                                <td><?php echo array_sum($res3); ?></td>
                                                 
                                             </tr>
                                         </tbody>
@@ -442,15 +511,15 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>10</td>
-                                                <td>20</td>
-                                                <td>30</td>
-                                                <td>40</td>
-                                                <td>50</td>
+                                                <td><?php echo $res4[0]?></td>
+                                                <td><?php echo $res4[1]?></td>
+                                                <td><?php echo $res4[2]?></td>
+                                                <td><?php echo $res4[3]?></td>
+                                                <td><?php echo $res4[4]?></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4">Total</td>
-                                                <td>200</td>
+                                                <td><?php echo array_sum($res4); ?></td>
                                                 
                                             </tr>
                                         </tbody>
@@ -488,13 +557,17 @@
                                             backgroundColor: [
                                                 'rgb(255,0,0,0.4)'
                                             ],
-                                            data: [10,18,25,8,7,15,6,26,13,12,11,20]
+                                            data: [<?php  foreach ($res5 as $key) {
+                                            echo $key.",";
+                                            }?>]
                                             },{
                                                 label: '<?php echo $user2 ?>',
                                             backgroundColor: [
                                                 'rgb(0,255,0,0.4)'
                                             ],
-                                            data: [7,20,10,10,13,9,15,7,6,10,10,12]
+                                            data: [<?php  foreach ($res6 as $key) {
+                                            echo $key.",";
+                                            }?>]
                                             }
                                             ]
                                         },

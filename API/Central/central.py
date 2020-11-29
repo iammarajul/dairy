@@ -8,7 +8,8 @@ import spoj
 import toph
 import uva
 import mysql.connector
-from selenium.webdriver import Chrome
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 print ("Content-type:text/html\n")
 mydb = mysql.connector.connect(
@@ -17,8 +18,10 @@ mydb = mysql.connector.connect(
   passwd="",
   database="dairy"
 )
-webdriver = 'C:/xampp/htdocs/Dairy/API/toph/python/chromedriver3.exe'	
-driver = Chrome(webdriver)
+options = webdriver.ChromeOptions()
+prefs = {"profile.default_content_setting_values.notifications" : 2}
+options.add_experimental_option("prefs",prefs)
+driver = webdriver.Chrome(ChromeDriverManager().install(), options = options)
 mycursor = mydb.cursor()
 mycursor.execute("SELECT * FROM user")
 myresult = mycursor.fetchall()

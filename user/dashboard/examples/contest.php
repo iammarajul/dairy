@@ -40,8 +40,10 @@
 
     $judge=array('hackerearth.com' =>'Hackerearth' ,'atcoder.jp' =>'Atcoder' ,'codechef.com' =>'Codechef' ,'leetcode.com' =>'Leetcode' ,'codeforces.com' =>'Codeforces' ,'toph.co' =>'Toph');
 
-
-
+    $var=time();
+    $var-=(6*60)*60;
+    // echo $var;
+    
 ?>
 
 <!DOCTYPE html>
@@ -183,13 +185,14 @@
                                         </thead>
                                         <tbody>
                                             <?php
+                                                $cnt=0;
                                                 foreach ($con as $key) {
                                                     if(isset($judge[$key['resource']['name']])){
                                                     echo "<tr>"; 
                                                     echo "<th>".$key['start']."</th>";
                                                     echo "<th><img src='./judgeImage/".$judge[$key['resource']['name']].".png' height='42' width='42'></th>";
                                                     echo "<th>".s2d($key['duration'])."</th>";
-                                                    echo "<th>Working</p></th>";
+                                                    echo "<th id=".$cnt++.">Working</p></th>";
 
                                                     echo "<th><a href=".$key['href'].">".$key['event']."</th>";
                                                     echo "</tr>";    
@@ -249,39 +252,32 @@
 <script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
 
 <script src="../assets/js/plugins/bootstrap-switch.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 <script src="../assets/js/plugins/chartist.min.js"></script>
 <script src="../assets/js/plugins/bootstrap-notify.js"></script>
 <script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
 <script src="../assets/js/demo.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        demo.initGoogleMaps();
-
-    });
-</script>
-
 <script>
 
-var countDownDate = new Date("<?php echo $key['start'] ?>").getTime();
+var countDownDate = new Date("<?php echo $con[0]['start'];?>").getTime();
+// document.write(countDownDate);
+    countDownDate/=1000;
+ countDownDate=countDownDate - ( <?php  echo $var; ?>);
+ function countdown(element,second){
+    var el = document.getElementById(element);
+    var interval = setInterval(function() {
+      var min = Math.floor(second/60);
+      var sec = Math.floor(second%60);
+      el.innerHTML =min+"m "+sec + "s "; 
+      second--;
+       if (second < 0) {
+        clearInterval(interval);
+        el.innerHTML = "EXPIRED";
+      }
+    },1000);  
+ }
+ for(var i=0;i<=)
+ countdown(1,countDownDate);
 
-var x = setInterval(function() {
-
-  var now = new Date().getTime();
-  var distance = countDownDate - now;
-    
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-  
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-  }
-}, 1000);
 </script>
 
 </html>

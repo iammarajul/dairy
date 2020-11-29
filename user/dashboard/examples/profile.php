@@ -173,10 +173,14 @@
                     <div class="row">
                         <div class="col-md-5">
                            <div class="card">
-                           	<div clas="card-body">
-                           		<h3>
-                           			iammarajul
-                           		</h3>
+                            <div class="card-header">
+                                <h3>
+                                    iammarajul
+                                </h3>
+                                <hr class="my-4">
+                            </div>
+                           	<div clas="card-body border border-primary">
+                           		<p class="lead"> sdiufhidh</p>
                            	</div>
                            </div>
                         </div>

@@ -146,6 +146,58 @@ if(!isset($_COOKIE['un'])) {
                                     <h4 align="Center" class="card-title">Last Unsolved</h4>
                                     <p align="Center" class="card-category">solve this problem you tried</p>
                                 </div>
+                                <a style=" margin-left: 900px" class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="true" aria-controls="collapseExample">
+                                Filter
+                                </a>
+
+                                <div class="collapse" id="collapseExample">
+                                  <div class="card card-body">
+                                       <table class="table table-hover table-striped">
+                                           <tr>
+                                               <form method="get" action="lastunsolved.php">
+                                                   <th>
+                                                       <label for="cars">Verdict:</label>
+
+                                                        <select name="ver" id="cars">
+                                                          <option value="all">ALL</option>
+                                                          <option value="wa">Wrong answer</option>
+                                                          <option value="tle">Time Limit</option>
+                                                          <option value="re">Runtime Error</option>
+                                                        </select>
+                                                   </th>
+                                                   <th>
+                                                       <label for="cars">Oj:</label>
+
+                                                        <select name="oj" id="cars">
+                                                          <option value="all">All</option>
+                                                          <option value="cf">Codeforces</option>
+                                                          <option value="toph">Toph</option>
+                                                          <option value="loj">Loj</option>
+                                                          <option value="spoj">Spoj</option>
+                                                          <option value="uva">Uva</option>
+                                                        </select>
+                                                   </th>
+                                                   <th>
+                                                       <label for="cars">Duration:</label>
+
+                                                        <select name="dur" id="cars">
+                                                          <option value="all">All</option>
+                                                          <option value="1">1 M</option>
+                                                          <option value="2">2 M</option>
+                                                          <option value="3">3 M</option>
+                                                          <option value="4">4 M</option>
+                                                          <option value="5">5 M</option>
+                                                        </select>
+                                                   </th>
+                                                   <th>
+                                                       <input type="submit" name="k">
+                                                   </th>
+                                               </form>
+                                           </tr>
+                                       </table>
+                                  </div>
+                                </div>
+
                                 <div class="card-body table-full-width table-responsive">
                                     <table class="table table-hover table-striped">
                                         <thead>

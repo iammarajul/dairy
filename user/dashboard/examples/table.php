@@ -161,54 +161,54 @@
                                 Filter
                                 </a>
 
-                                        <div class="collapse" id="collapseExample">
-                                          <div class="card card-body">
-                                               <table class="table table-hover table-striped">
-                                                   <tr>
-                                                       <form method="get" action="table.php">
-                                                           <th>
-                                                               <label for="cars">Verdict:</label>
+                                <div class="collapse" id="collapseExample">
+                                  <div class="card card-body">
+                                       <table class="table table-hover table-striped">
+                                           <tr>
+                                               <form method="get" action="table.php">
+                                                   <th>
+                                                       <label for="cars">Verdict:</label>
 
-                                                                <select name="ver" id="cars">
-                                                                  <option value="all">ALL</option>
-                                                                  <option value="ac">Accepted</option>
-                                                                  <option value="wa">Wrong answer</option>
-                                                                  <option value="tle">Time Limit</option>
-                                                                  <option value="re">Runtime Error</option>
-                                                                </select>
-                                                           </th>
-                                                           <th>
-                                                               <label for="cars">Oj:</label>
+                                                        <select name="ver" id="cars">
+                                                          <option value="all">ALL</option>
+                                                          <option value="ac">Accepted</option>
+                                                          <option value="wa">Wrong answer</option>
+                                                          <option value="tle">Time Limit</option>
+                                                          <option value="re">Runtime Error</option>
+                                                        </select>
+                                                   </th>
+                                                   <th>
+                                                       <label for="cars">Oj:</label>
 
-                                                                <select name="oj" id="cars">
-                                                                  <option value="all">All</option>
-                                                                  <option value="cf">Codeforces</option>
-                                                                  <option value="toph">Toph</option>
-                                                                  <option value="loj">Loj</option>
-                                                                  <option value="spoj">Spoj</option>
-                                                                  <option value="uva">Uva</option>
-                                                                </select>
-                                                           </th>
-                                                           <th>
-                                                               <label for="cars">Duration:</label>
+                                                        <select name="oj" id="cars">
+                                                          <option value="all">All</option>
+                                                          <option value="cf">Codeforces</option>
+                                                          <option value="toph">Toph</option>
+                                                          <option value="loj">Loj</option>
+                                                          <option value="spoj">Spoj</option>
+                                                          <option value="uva">Uva</option>
+                                                        </select>
+                                                   </th>
+                                                   <th>
+                                                       <label for="cars">Duration:</label>
 
-                                                                <select name="dur" id="cars">
-                                                                  <option value="all">All</option>
-                                                                  <option value="1">1 M</option>
-                                                                  <option value="2">2 M</option>
-                                                                  <option value="3">3 M</option>
-                                                                  <option value="4">4 M</option>
-                                                                  <option value="5">5 M</option>
-                                                                </select>
-                                                           </th>
-                                                           <th>
-                                                               <input type="submit" name="k">
-                                                           </th>
-                                                       </form>
-                                                   </tr>
-                                               </table>
-                                          </div>
-                                        </div>
+                                                        <select name="dur" id="cars">
+                                                          <option value="all">All</option>
+                                                          <option value="1">1 M</option>
+                                                          <option value="2">2 M</option>
+                                                          <option value="3">3 M</option>
+                                                          <option value="4">4 M</option>
+                                                          <option value="5">5 M</option>
+                                                        </select>
+                                                   </th>
+                                                   <th>
+                                                       <input type="submit" name="k">
+                                                   </th>
+                                               </form>
+                                           </tr>
+                                       </table>
+                                  </div>
+                                </div>
                                 <div class="card-body table-full-width table-responsive">
                                     <table class="table table-hover table-striped">
  
@@ -314,7 +314,6 @@
 <script src="../assets/js/core/popper.min.js" type="text/javascript"></script>
 <script src="../assets/js/core/bootstrap.min.js" type="text/javascript"></script>
 <script src="../assets/js/plugins/bootstrap-switch.js"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
 <script src="../assets/js/plugins/chartist.min.js"></script>
 <script src="../assets/js/plugins/bootstrap-notify.js"></script>
 <script src="../assets/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>

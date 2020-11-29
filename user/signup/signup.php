@@ -18,7 +18,7 @@
   	<?php include('errors.php'); ?>
   	<div class="input-group">
   	  <label>Username</label>
-  	  <input type="text" name="username" value="<?php echo $username; ?>">
+  	  <input type="text" name="username" value="<?php echo $username1; ?>">
   	</div>
   	<div class="input-group">
   	  <label>Email</label>
@@ -48,6 +48,14 @@
   	  <label>Spoj</label>
   	  <input type="text" name="spoj" value="<?php echo $spoj?>" >
   	</div>
+    <div class="input-group">
+      <label>Lolj username</label>
+      <input type="text" name="loju" value="<?php echo $loju?>" >
+    </div>
+     <div class="input-group">
+      <label>Lolj password</label>
+      <input type="password" name="lojp" value="<?php echo $lojp?>" >
+    </div>
 
     <div style="margin: 0px 50px 0px;">
      <div class="g-recaptcha" data-sitekey="6LfUcMwUAAAAANbgR5OrLU2FMYNceHUGOmXw8xiC" ></div>
