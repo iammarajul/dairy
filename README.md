@@ -24,3 +24,17 @@
 - Ensure user Privacy.
 - Mobile responsive front-end design
 - Ensure user Privacy.
+
+### Instalation  
+
+- Download Xampp (https://www.apachefriends.org/download.html)
+- Download Python (https://www.python.org/downloads/release/python-390/)
+- Run MySQL and create a database named dairy
+- Import DB dairy.sql IN your database
+- Run This command in your CMD
+```html
+  pip install mysql.connector
+  pip install selenium
+  pip install pandas
+```
+- Now set the Central.py file in your project Service and give 1 hour trigger
